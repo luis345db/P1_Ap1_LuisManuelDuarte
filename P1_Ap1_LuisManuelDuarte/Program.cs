@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using P1_Ap1_LuisManuelDuarte.Components;
-using P1_Ap1_LuisManuelDuarte.Contexto;
+using P1_Ap1_LuisManuelDuarte.DAL;
 
 var builder = WebApplication.CreateBuilder(args);
 

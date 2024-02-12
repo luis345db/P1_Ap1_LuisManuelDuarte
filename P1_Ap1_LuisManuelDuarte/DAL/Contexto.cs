@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using P1_Ap1_LuisManuelDuarte.Models;
-namespace P1_Ap1_LuisManuelDuarte.Contexto
+
+
+namespace P1_Ap1_LuisManuelDuarte.DAL
 {
     public class Contexto : DbContext
     {

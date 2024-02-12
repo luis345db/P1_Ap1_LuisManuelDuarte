@@ -14,7 +14,7 @@ namespace P1_Ap1_LuisManuelDuarte.Models
         [Required(ErrorMessage = "La Descripcion es Requerida")]
         public string Descripcion { get; set; }
 
-        [Required(ErrorMessage = "")]
+        [Required(ErrorMessage = "El Monto es Requerido")]
         public float Monto { get; set; }
 
     }

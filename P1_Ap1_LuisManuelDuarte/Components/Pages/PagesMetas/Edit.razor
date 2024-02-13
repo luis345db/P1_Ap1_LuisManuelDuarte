@@ -64,8 +64,8 @@
 	protected override async Task OnInitializedAsync()
 	{
 		await Task.Delay(500);
-		if (metaId > 0)
-			metas = await metasServices.Buscar(metaId);
+		if (metasId > 0)
+			metas = await metasServices.Buscar(metasId);
 	}
 
 	public async Task Modificar()

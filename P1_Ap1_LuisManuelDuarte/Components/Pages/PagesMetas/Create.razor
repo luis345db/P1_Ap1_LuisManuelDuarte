@@ -1,0 +1,94 @@
+﻿@page "/Create"
+@inject MetasServices metasServices
+@rendermode InteractiveServer
+
+<EditForm Model="metas" OnValidSubmit="Crear">
+    <div class="card">
+        <div class="card-header">
+            <h1>Registro De Metas</h1>
+
+            <div class="d-flex align-items-start ">
+                <a class="btn btn-primary"  href="/Details"><em>Detalles</em></a>
+            </div>
+        </div>
+
+        <div class="card-body">
+            <label>MetasID:</label>
+            <div class="input-group">
+                <InputNumber @bind-Value="metas.MetaId" class="id-input"></InputNumber>
+                <button type="button" class="bi bi-binoculars-fill" @onclick="Buscar"></button>
+            </div>
+
+            <div>
+                <label>Fecha:</label>
+                <InputDate @bind-Value="metas.Fecha" class="form-control"></InputDate>
+            </div>
+
+            <div>
+            <label>Descripcion:</label>
+            <InputText @bind-Value="metas.Descripcion" class="form-control"></InputText>
+            <ValidationMessage For="@(() => metas.Descripcion)" />
+                @if (metas.Descripcion == null)
+                {
+                    <p class="text-danger">Ingrese una descripción.</p>
+                }
+               
+            
+            </div>
+
+            <div>
+                <label>Monto:</label>
+                <ValidationMessage For="@(() => metas.Monto)" />
+                <InputNumber @bind-Value="metas.Monto"class="form-control"></InputNumber>
+            </div>
+        </div>
+        <div class="card-footer">
+            <button type="submit" class="btn btn-success">Crear </button>
+        </div>
+    </div>
+
+</EditForm>
+
+
+
+@code {
+    public Metas metas { get; set; } = new Metas();
+    private bool Existe = false;
+
+    public async Task Buscar()
+    {
+        var metaEncontrada = await metasServices.Buscar(metas.MetaId);
+        if (metaEncontrada != null)
+        {
+            this.metas = metaEncontrada;
+        }
+    }
+
+    void Nuevo()
+    {
+        this.metas = new Metas();
+    }
+
+    public async Task<bool> Validar()
+    {
+        Existe = (await metasServices.GetList(c => c.Descripcion!.ToLower() == metas.Descripcion!.ToLower()
+         && c.MetaId != metas.MetaId)).Any();
+
+        return Existe;
+
+
+    }
+
+    public async Task Crear()
+    {
+        if (await Validar())
+        {
+            return;
+        }
+        if (await metasServices.Guardar(this.metas))
+        {
+            this.Nuevo();
+        }
+    }
+
+}

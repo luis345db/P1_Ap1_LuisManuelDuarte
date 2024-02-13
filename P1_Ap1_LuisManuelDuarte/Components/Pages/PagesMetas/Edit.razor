@@ -1,0 +1,114 @@
+﻿@page "/Edit"
+@page "/Edit/metasId={metasId:int}"
+@attribute [StreamRendering]
+@inject MetasServices metasServices
+@rendermode InteractiveServer
+
+
+<PageTitle>Editar Metas</PageTitle>
+<EditForm Model="metas" OnValidSubmit="Modificar">
+    <div class="container">
+        <div class="card-header">
+            <h1>Registro De Metas</h1>
+
+            <div class="d-flex align-items-start ">
+                <a class="btn btn-primary" href="/Details"><em>Detalles</em></a>
+            </div>
+        </div>
+
+        <div class="card-body">
+            <label>MetasID:</label>
+            <div class="input-group">
+                <InputNumber @bind-Value="metas.MetaId" class="id-input"></InputNumber>
+                <button type="button" class="bi bi-binoculars-fill" @onclick="Buscar"></button>
+            </div>
+
+            <div>
+                <label>Fecha:</label>
+                <InputDate @bind-Value="metas.Fecha" class="form-control"></InputDate>
+            </div>
+
+            <div>
+                <label>Descripcion:</label>
+                <InputText @bind-Value="metas.Descripcion" class="form-control"></InputText>
+                <ValidationMessage For="@(() => metas.Descripcion)" />
+                @if (metas.Descripcion == null)
+                {
+                    <p class="text-danger">Ingrese una descripción.</p>
+                }
+
+
+            </div>
+
+            <div>
+                <label>Monto:</label>
+                <ValidationMessage For="@(() => metas.Monto)" />
+                <InputNumber @bind-Value="metas.Monto" class="form-control"></InputNumber>
+            </div>
+        </div>
+        <div class="card-footer">
+            <button type="submit" class="btn btn-success">Modificar </button>
+        </div>
+    </div>
+
+</EditForm>
+
+
+
+@code {
+	[Parameter]
+	public int metaId { get; set; }
+    public Metas metas { get; set; } = new Metas();
+    private bool Existe = false;
+	public string mensaje { get; set; } = string.Empty;
+	protected override async Task OnInitializedAsync()
+	{
+		await Task.Delay(500);
+		if (metaId > 0)
+			metas = await metasServices.Buscar(metaId);
+	}
+
+	public async Task Modificar()
+	{
+		if (await Validar())
+			mensaje = "Error, este nombre no esta disponible";
+		else
+		{
+			var modificar = await metasServices.Guardar(metas);
+			if (modificar)
+				mensaje = "Los datos se ha actualizado con exito";
+			else
+				mensaje = "Los datos no han podido ser actualizados";
+		}
+	}
+
+    public async Task<bool> Validar()
+    {
+        Existe = (await metasServices.GetList(c => c.Descripcion!.ToLower() == metas.Descripcion!.ToLower()
+         && c.MetaId != metas.MetaId)).Any();
+
+        return Existe;
+
+
+    }
+
+
+	public async Task Buscar()
+	{
+		if (metas.MetaId <= 0)
+			mensaje = "No se aceptan Id menores que 1";
+
+		else
+		{
+			var buscar = await metasServices.Buscar(metas.MetaId);
+			if (buscar != null)
+			{
+				metas = buscar;
+				mensaje = "La meta ha sido encontrada con exito";
+			}
+			else
+				mensaje = $"No existe la meta con el id {metas.MetaId}";
+		}
+	}
+
+}

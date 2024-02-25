@@ -18,7 +18,7 @@ namespace P1_Ap1_LuisManuelDuarte.Services
 
         public async Task<bool> Existe(int metasId)
         {
-            return await _contexto.Metas.AnyAsync(c => c.MetaId == metasId);
+            return await _contexto.Metas.AnyAsync(m => m.MetaId == metasId);
         }
 
         public async Task<bool> Insertar(Metas metas)
@@ -48,7 +48,7 @@ namespace P1_Ap1_LuisManuelDuarte.Services
         public async Task<bool> Eliminar(Metas metas)
         {
             var cantidad = await _contexto.Metas
-                .Where(c => c.MetaId == metas.MetaId)
+                .Where(m => m.MetaId == metas.MetaId)
                 .ExecuteDeleteAsync();
 
             return cantidad > 0;
@@ -58,7 +58,7 @@ namespace P1_Ap1_LuisManuelDuarte.Services
         {
             return await _contexto.Metas
                 .AsNoTracking()
-                .FirstOrDefaultAsync(c => c.MetaId == metaId);
+                .FirstOrDefaultAsync(m => m.MetaId == metaId);
         }
 
         public async Task<List<Metas>> GetList(Expression<Func<Metas, bool>> criterio)
@@ -73,7 +73,7 @@ namespace P1_Ap1_LuisManuelDuarte.Services
         {
             return await _contexto.Metas
                 .AsNoTracking()
-                .FirstOrDefaultAsync(c => c.MetaId == metasId);
+                .FirstOrDefaultAsync(m => m.MetaId == metasId);
         }
 
 

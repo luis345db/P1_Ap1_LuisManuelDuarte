@@ -33,15 +33,15 @@
                 </thead>
 
                 <tbody>
-                    @foreach (var item in ListaMetas)
+                    @foreach (var meta in ListaMetas)
                     {
                         <tr>
-                            <td>@item.MetaId</td>
-                            <td>@item.Fecha.ToShortDateString()</td>
-                            <td>@item.Descripcion</td>
-                            <td>@item.Monto.ToString("N2")</td>
-                            <td><a class="btn btn-primary" href="/Edit/metasId=@item.MetaId"><em>Editar</em></a></td>
-                            <td><a class="btn btn-danger" href="/Delete/metasId=@item.MetaId"><em>Eliminar</em></a></td>
+                            <td>@meta.MetaId</td>
+                            <td>@meta.Fecha.ToShortDateString()</td>
+                            <td>@meta.Descripcion</td>
+                            <td>@meta.Monto.ToString("N2")</td>
+                            <td><a class="btn btn-primary" href="/Edit/metasId=@meta.MetaId"><em>Editar</em></a></td>
+                            <td><a class="btn btn-danger" href="/Delete/metasId=@meta.MetaId"><em>Eliminar</em></a></td>
                         </tr>
                     }
                 </tbody>

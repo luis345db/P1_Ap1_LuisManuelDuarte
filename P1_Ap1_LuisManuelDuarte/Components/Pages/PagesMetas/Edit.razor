@@ -84,8 +84,8 @@
 
     public async Task<bool> Validar()
     {
-        Existe = (await metasServices.GetList(c => c.Descripcion!.ToLower() == metas.Descripcion!.ToLower()
-         && c.MetaId != metas.MetaId)).Any();
+        Existe = (await metasServices.GetList(m => m.Descripcion!.ToLower() == metas.Descripcion!.ToLower()
+         && m.MetaId != metas.MetaId)).Any();
 
         return Existe;
 

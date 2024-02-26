@@ -3,6 +3,7 @@
 @attribute [StreamRendering]
 @inject MetasServices metasServices
 @rendermode InteractiveServer
+@inject NavigationManager NavigationManager;
 
 
 <PageTitle>Editar Metas</PageTitle>
@@ -48,6 +49,7 @@
         </div>
         <div class="card-footer">
             <button type="submit" class="btn btn-success">Modificar </button>
+            <button type="button" class="btn btn-dark" @onclick="IrAPaginaDestino">Cancelar</button>
         </div>
     </div>
 
@@ -110,5 +112,9 @@
 				mensaje = $"No existe la meta con el id {metas.MetaId}";
 		}
 	}
+    void IrAPaginaDestino()
+    {
+        NavigationManager.NavigateTo("/Metas");
+    }
 
 }
